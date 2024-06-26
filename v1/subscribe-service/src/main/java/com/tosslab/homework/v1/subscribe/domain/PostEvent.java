@@ -1,37 +1,49 @@
 package com.tosslab.homework.v1.subscribe.domain;
 
+import com.tosslab.homework.v1.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
+
+import java.util.UUID;
 
 @Entity
 @Getter
-@Table(name = "SUBSCRIBE")
+@Table(name = "POST_EVENT")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Subscribe {
+public class PostEvent extends BaseTimeEntity implements Persistable<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subscribe_id", columnDefinition = "BIGINT")
-    private Long subscribeId;
+    @Column(name = "event_id", columnDefinition = "BINARY(16)")
+    private UUID eventId;
 
-    @Column(name = "target_id", columnDefinition = "BIGINT", nullable = false)
-    private Long targetId;
-
-    @Column(name = "subscriber_id", columnDefinition = "BIGINT", nullable = false)
-    private Long subscriberId;
+    @Column(name = "post_id", columnDefinition = "BIGINT", nullable = false)
+    private Long postId;
 
     @Builder
-    private Subscribe(Long targetId, Long subscriberId) {
-        this.targetId = targetId; this.subscriberId = subscriberId;
+    private PostEvent(UUID eventId, Long postId) {
+        this.eventId = eventId;
+        this.postId = postId;
     }
 
-    public static Subscribe of(Long targetId, Long subscriberId) {
-        return Subscribe.builder()
-                .targetId(targetId)
-                .subscriberId(subscriberId)
+    public static PostEvent of(UUID eventId, Long postId) {
+        return PostEvent.builder()
+                .eventId(eventId)
+                .postId(postId)
                 .build();
+
+    }
+
+    @Override
+    public UUID getId() {
+        return eventId;
+    }
+
+    @Override
+    public boolean isNew() {
+        return super.getCreatedAt() == null;
     }
 }

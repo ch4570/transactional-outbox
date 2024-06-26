@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, CreatePostEvent> concurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CreatePostEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        final ConcurrentKafkaListenerContainerFactory<String, CreatePostEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
 
         factory.setConsumerFactory(consumerFactory());
         return factory;
@@ -41,7 +41,7 @@ public class KafkaConsumerConfig {
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest"
         );
 
-        JsonDeserializer<CreatePostEvent> deserializer = new JsonDeserializer<>(CreatePostEvent.class, false);
+        final JsonDeserializer<CreatePostEvent> deserializer = new JsonDeserializer<>(CreatePostEvent.class, false);
 
         return new DefaultKafkaConsumerFactory<>(consumerConfigs, new StringDeserializer(), deserializer);
     }
