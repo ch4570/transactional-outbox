@@ -31,7 +31,11 @@ public class KafkaProducerConfig {
         return Map.of(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, properties.getBootstrapServers(),
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class,
+                ProducerConfig.RETRIES_CONFIG, 0,
+                ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 300,
+                ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 1500,
+                ProducerConfig.METADATA_MAX_AGE_CONFIG, 5000
         );
     }
 
