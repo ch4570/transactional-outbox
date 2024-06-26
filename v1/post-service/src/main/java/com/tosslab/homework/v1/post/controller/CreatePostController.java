@@ -19,7 +19,7 @@ public class CreatePostController {
 
     @PostMapping("/api/v1/posts")
     public ResponseEntity<BaseResponse<Void>> createPost(@RequestBody @Valid final CreatePostCommand createPostCommand) {
-        createPostService.create(createPostCommand.getAuthorId(), createPostCommand.getTitle(), createPostCommand.getContent());
+        createPostService.create(createPostCommand.authorId(), createPostCommand.title(), createPostCommand.content());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(BaseResponse.created());
     }

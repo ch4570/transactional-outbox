@@ -2,19 +2,15 @@ package com.tosslab.homework.v1.post.event.object;
 
 import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@Getter
-@RequiredArgsConstructor
+import java.util.UUID;
+
 @Builder(access = AccessLevel.PRIVATE)
-public class CreatePostEvent {
+public record CreatePostEvent(UUID eventId, Long postId, Long authorId) {
 
-    private final Long postId;
-    private final Long authorId;
-
-    public static CreatePostEvent of(Long postId, Long authorId) {
+    public static CreatePostEvent of(UUID eventId, Long postId, Long authorId) {
         return CreatePostEvent.builder()
+                .eventId(eventId)
                 .postId(postId)
                 .authorId(authorId)
                 .build();
