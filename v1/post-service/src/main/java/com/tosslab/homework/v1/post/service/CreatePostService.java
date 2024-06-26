@@ -25,7 +25,7 @@ public class CreatePostService implements CreatePostUseCase {
         postRepository.save(post);
 
         // 게시글 생성 이벤트 발송
-        final CreatePostEvent event = CreatePostEvent.of(UUID.randomUUID(), post.getPostId(), authorId);
+        final CreatePostEvent event = CreatePostEvent.of(UUID.randomUUID(), post.getPostId(), authorId, post.getTitle());
         eventPublisher.publishEvent(event);
     }
 }
