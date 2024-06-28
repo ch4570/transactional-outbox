@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: post-service
+
+  # Kafka Setting
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+
+
+# MySQL Setting
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/post_service_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: root
+
+# JPA Setting
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.hibernate.format_sql: true
+    open-in-view: false
+
+# Logging Setting
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+# Server Port Setting
+server:
+  port: 8081
