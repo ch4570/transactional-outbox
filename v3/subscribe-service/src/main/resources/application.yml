@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: subscribe-service
+
+  # Kafka Setting
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9092
+      group-id: post-group
+
+
+  # MySQL Setting
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/subscribe_service_db?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: root
+
+# JPA Setting
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.hibernate.format_sql: true
+    open-in-view: false
+
+# Logging Setting
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+# Server Port Setting
+server:
+  port: 8082

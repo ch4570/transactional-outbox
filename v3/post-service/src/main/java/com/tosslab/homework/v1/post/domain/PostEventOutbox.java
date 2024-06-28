@@ -31,9 +31,6 @@ public class PostEventOutbox extends BaseTimeEntity implements Persistable<UUID>
     @Column(name = "title", columnDefinition = "TEXT", nullable = false)
     private String title;
 
-    @Column(name = "send_status", columnDefinition = "BOOLEAN")
-    private boolean sendStatus;
-
     @Override
     public UUID getId() {
         return eventId;
@@ -44,17 +41,12 @@ public class PostEventOutbox extends BaseTimeEntity implements Persistable<UUID>
         return super.getCreatedAt() == null;
     }
 
-    public void completeEvent() {
-        this.sendStatus = true;
-    }
-
     public static PostEventOutbox of(UUID eventId, Long postId, Long authorId, String title) {
         return PostEventOutbox.builder()
                 .eventId(eventId)
                 .postId(postId)
                 .authorId(authorId)
                 .title(title)
-                .sendStatus(false)
                 .build();
     }
 }
