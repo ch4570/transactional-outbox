@@ -34,9 +34,11 @@ public class SendPostEventScheduler {
                             postEventOutbox.getAuthorId(), postEventOutbox.getTitle());
 
             kafkaTemplate.send("post-create", createPostEvent);
+            // 전송된 메시지에 대해, 상태를 "완료"로 수정한다.
             postEventOutbox.completeEvent();
         });
 
         log.info("처리한 이벤트 개수 = [{}], 종료 시간 = [{}]", postEventOutboxList.size(), LocalDateTime.now());
     }
 }
+

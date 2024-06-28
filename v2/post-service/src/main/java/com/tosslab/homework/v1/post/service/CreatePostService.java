@@ -19,6 +19,7 @@ public class CreatePostService implements CreatePostUseCase {
     public void create(Long authorId, String title, String content) {
         final Post post = Post.of(authorId, title, content);
         postRepository.save(post);
+
         createPostEventOutboxService.create(post.getPostId(), authorId, title);
     }
 }
