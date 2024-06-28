@@ -1,0 +1,147 @@
+version: '3.7'
+
+services:
+  mysql1:
+    image: mysql:8.0
+    platform: linux/x86_64
+    container_name: mysql1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: post_service_db
+      MYSQL_USER: rex
+      MYSQL_PASSWORD: ckdrn121212!
+    volumes:
+      - mysql1_data:/var/lib/mysql
+      - ./mysql/my1.cnf:/etc/mysql/my.cnf
+    ports:
+      - "3306:3306"
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.2
+
+  mysql2:
+    image: mysql:8.0
+    platform: linux/x86_64
+    container_name: mysql2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: subscribe_service_db
+      MYSQL_USER: rex
+      MYSQL_PASSWORD: ckdrn121212!
+    volumes:
+      - mysql2_data:/var/lib/mysql
+      - ./mysql/my2.cnf:/etc/mysql/my.cnf
+    ports:
+      - "3307:3306"
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.3
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.4
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.5
+
+  zookeeper:
+    image: debezium/zookeeper:1.4
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.6
+
+  kafka:
+    image: debezium/kafka:1.4
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      - ZOOKEEPER_CONNECT=zookeeper:2181
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.7
+
+  connect:
+    image: debezium/connect:1.4
+    container_name: connect
+    depends_on:
+      - kafka
+      - mysql1
+    ports:
+      - "8083:8083"
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=my_connect_configs
+      - OFFSET_STORAGE_TOPIC=my_connect_offsets
+      - STATUS_STORAGE_TOPIC=my_connect_statuses
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.8
+
+  subscribe-service:
+    build: ../v3/subscribe-service
+    container_name: subscribe-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql2
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql2:3306/subscribe_service_db?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.9
+
+  post-service:
+    build: ../v3/post-service
+    container_name: post-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql1
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql1:3306/post_service_db?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks:
+      my-network:
+        ipv4_address: 172.20.0.10
+
+networks:
+  my-network:
+    external: true
+    name: service-network
+
+volumes:
+  mysql1_data:
+  mysql2_data:
+  grafana_data:
+
