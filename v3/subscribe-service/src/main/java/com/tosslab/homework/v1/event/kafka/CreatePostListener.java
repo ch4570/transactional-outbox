@@ -22,7 +22,7 @@ public class CreatePostListener {
     private final ObjectMapper objectMapper;
     private final SendNotificationUseCase sendNotificationUseCase;
 
-    @KafkaListener(topics = "dbserver1.post_service_db.post_event_outbox", groupId = "post-group", containerFactory = "concurrentKafkaListenerContainerFactory")
+    @KafkaListener(topics = "post-create=event.post_service_db.post_event_outbox", groupId = "post-group", containerFactory = "concurrentKafkaListenerContainerFactory")
     void consumeEvent(@Payload String event) {
         CreatePostEvent createPostEvent = convertFromJson(event);
         log.info("Create Post Event 수신 Request Data = [{}], 수신 날짜 = [{}]", createPostEvent, LocalDateTime.now());

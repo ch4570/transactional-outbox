@@ -62,7 +62,7 @@ services:
         ipv4_address: 172.20.0.5
 
   zookeeper:
-    image: debezium/zookeeper:1.4
+    image: debezium/zookeeper:2.7
     container_name: zookeeper
     ports:
       - "2181:2181"
@@ -73,7 +73,7 @@ services:
         ipv4_address: 172.20.0.6
 
   kafka:
-    image: debezium/kafka:1.4
+    image: debezium/kafka:2.7
     container_name: kafka
     depends_on:
       - zookeeper
@@ -86,7 +86,7 @@ services:
         ipv4_address: 172.20.0.7
 
   connect:
-    image: debezium/connect:1.4
+    image: debezium/connect:2.7
     container_name: connect
     depends_on:
       - kafka
@@ -119,6 +119,7 @@ services:
     networks:
       my-network:
         ipv4_address: 172.20.0.9
+    restart: always
 
   post-service:
     build: ../v3/post-service
@@ -134,6 +135,7 @@ services:
     networks:
       my-network:
         ipv4_address: 172.20.0.10
+    restart: always
 
 networks:
   my-network:
