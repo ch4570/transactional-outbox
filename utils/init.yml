@@ -8,8 +8,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: post_service_db
-      MYSQL_USER: rex
-      MYSQL_PASSWORD: ckdrn121212!
     volumes:
       - mysql1_data:/var/lib/mysql
       - ./mysql/my1.cnf:/etc/mysql/my.cnf
@@ -26,8 +24,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: subscribe_service_db
-      MYSQL_USER: rex
-      MYSQL_PASSWORD: ckdrn121212!
     volumes:
       - mysql2_data:/var/lib/mysql
       - ./mysql/my2.cnf:/etc/mysql/my.cnf
