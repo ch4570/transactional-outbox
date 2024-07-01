@@ -34,5 +34,4 @@ public class CreatePostEventDeserializer implements Deserializer<CreatePostEvent
         }
     }
 
-
 }
