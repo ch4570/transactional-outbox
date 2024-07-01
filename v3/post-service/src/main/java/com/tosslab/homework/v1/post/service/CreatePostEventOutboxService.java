@@ -18,7 +18,7 @@ public class CreatePostEventOutboxService implements CreatePostEventOutboxUseCas
 
     @Override
     public void create(Long postId, Long authorId, String title) {
-        PostEventOutbox postEventOutbox = PostEventOutbox.of(UUID.randomUUID(), postId, authorId, title);
+        final PostEventOutbox postEventOutbox = PostEventOutbox.of(UUID.randomUUID(), postId, authorId, title);
         postEventOutboxRepository.save(postEventOutbox);
     }
 }
