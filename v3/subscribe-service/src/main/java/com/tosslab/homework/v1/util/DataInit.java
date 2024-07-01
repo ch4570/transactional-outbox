@@ -24,13 +24,13 @@ public class DataInit {
     public void initData() {
         final List<Member> memberList = List.of(
                 Member.of("rex.seo@tosslab.com", "Dev Seo Rex",
-                        "https://wh.jandi.com/connect-api/webhook/279/f9ae0c362f0a03e43e9101f4b7760b87"),
+                        "https://wh.jandi.io/connect-api/webhook/279/cf9ffaaa8b14c944700cc51d7b27f90a"),
                 Member.of("rex.subscriber1@tosslab.com", "Rex Subscriber 1",
-                        "https://wh.jandi.com/connect-api/webhook/279/004bead40f9d0acd5d9c2821405ca3b9"),
+                        "https://wh.jandi.io/connect-api/webhook/279/36b43632c7f914e75a835bc06949b252"),
                 Member.of("rex.subscriber2@tosslab.com", "Rex Subscriber 2",
-                        "https://wh.jandi.com/connect-api/webhook/279/9558657300c1f356dd9cd2a7b051131c"),
+                        "https://wh.jandi.io/connect-api/webhook/279/41bdf4f77bf627750404a1e6ffc8543b"),
                 Member.of("rex.subscriber3@tosslab.com", "Rex Subscriber 3",
-                        "https://wh.jandi.com/connect-api/webhook/279/bb42372e4e7f5b53a9bf48116d1fd7c7")
+                        "https://wh.jandi.io/connect-api/webhook/279/79e7f1ddc77fc33daa63a6cf70ce97d5")
         );
 
         memberRepository.saveAll(memberList);
